@@ -113,7 +113,51 @@
                     </ul>
                 </li>
 
+                <li class="nav-item {{ Request::is('reports*') ? 'menu-open' : '' }}">
+                    <a href="{{ route('reports.financial') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Reports
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('reports.financial') }}" class="nav-link {{ request()->routeIs('reports.financial') ? 'active_nav_menu' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Financial</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('reports.profit') }}" class="nav-link {{ request()->routeIs('reports.profit') ? 'active_nav_menu' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Profit</p>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ Request::is('reports/ledger*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Ledger
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
 
+                            <ul class="nav nav-treeview">
+                                @foreach(\App\Models\Account::orderBy('name')->get() as $account)
+                                    <li class="nav-item">
+                                        <a href="{{ route('reports.ledger', $account->id) }}"
+                                           class="nav-link {{ request()->is('reports/ledger/'.$account->id) ? 'active_nav_menu' : '' }}">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>{{ $account->name }}</p>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
 
                 <li class="nav-item {{ Request::is('password-change') ? 'menu-open' : '' }}">
                     <a href="{{ route('password-change') }}" class="nav-link">

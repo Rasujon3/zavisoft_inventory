@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialityController;
@@ -49,6 +50,24 @@ Route::group(['middleware' => ['prevent-back-history', 'admin_auth']], function 
 
     // Sales
     Route::resource('sales', SaleController::class);
+
+    Route::prefix('reports')->group(function () {
+
+        Route::get('/financial', [ReportController::class,'financial'])
+            ->name('reports.financial');
+
+//        Route::get('/financial', [ReportController::class,'salesReportPage'])
+//            ->name('reports.financial');
+
+        Route::get('/financial-report', [ReportController::class, 'salesReportData'])
+            ->name('financial.reports.data'); // AJAX
+
+        Route::get('/profit', [ReportController::class,'profit'])
+            ->name('reports.profit');
+
+        Route::get('/ledger/{account}', [ReportController::class,'ledger'])
+            ->name('reports.ledger');
+    });
 });
 
 
