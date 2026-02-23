@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ProductController;
@@ -41,6 +42,9 @@ Route::group(['middleware' => ['prevent-back-history', 'admin_auth']], function 
 
     // Products
     Route::resource('products', ProductController::class);
+
+    // Customers
+    Route::resource('customers', CustomerController::class);
 });
 
 

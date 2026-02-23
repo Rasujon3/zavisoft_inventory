@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,19 +14,18 @@ class ProductRequest extends FormRequest
     {
         return true;
     }
-
     public function rules(): array
     {
         // Get the route name and apply null-safe operator
         $routeName = $this->route()?->getName();
 
-        $data = $this->route('product');
+        $data = $this->route('customer');
         $id = $data?->id ?? null;
 
-        if ($routeName === 'products.update') {
-            return Product::updateRules($id);
-        }
+//        if ($routeName === 'customers.update') {
+//            return Customer::updateRules($id);
+//        }
 
-        return Product::rules();
+        return Customer::rules($id);
     }
 }

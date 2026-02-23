@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">All Services</h1>
+                    <h1 class="m-0">All Customers</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{URL::to('/dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">All Services</li>
+                        <li class="breadcrumb-item active">All Customers</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -22,17 +22,19 @@
     <section class="content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">All Services</h3>
+                <h3 class="card-title">All Customers</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <a href="{{route('services.create')}}" class="btn btn-primary add-new mb-2">Add New Services</a>
+                <a href="{{route('customers.create')}}" class="btn btn-primary add-new mb-2">Add New Customers</a>
                 <div class="fetch-data table-responsive">
                     <table id="table-data" class="table table-bordered table-striped data-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Status</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -59,12 +61,14 @@
 		        responsive: true,
 		        stateSave: true,
 		        ajax: {
-		          url: "{{ url('/services') }}",
+		          url: "{{ url('/customers') }}",
 		        },
 
 		        columns: [
 		            {data: 'name', name: 'name'},
-                    {data: 'status', name: 'status'},
+		            {data: 'phone', name: 'phone'},
+		            {data: 'email', name: 'email'},
+		            {data: 'address', name: 'address'},
 		            {data: 'action', name: 'action', orderable: false, searchable: false},
 		        ]
         });
@@ -79,7 +83,7 @@
             {
                 $.ajax({
 
-                    url: "{{url('/services')}}/"+data_id,
+                    url: "{{url('/customers')}}/"+data_id,
                     type:"DELETE",
                     dataType:"json",
                     success:function(data) {
@@ -102,7 +106,7 @@
             var status_val = isDataChecked ? 'Active' : 'Inactive';
             $.ajax({
 
-                url: "{{ url('/service-status-update') }}",
+                url: "{{ url('/branch-status-update') }}",
 
                 type: "POST",
                 data:{ 'id': id, 'status': status_val },
