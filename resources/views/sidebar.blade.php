@@ -94,6 +94,27 @@
                     </ul>
                 </li>
 
+                <li class="nav-item {{ Request::is('sales*') ? 'menu-open' : '' }}">
+                    <a href="{{ route('sales.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Sales
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('sales.index') }}" class="nav-link {{ request()->routeIs('sales.index') ? 'active_nav_menu' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Sales</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
                 <li class="nav-item {{ Request::is('password-change') ? 'menu-open' : '' }}">
                     <a href="{{ route('password-change') }}" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>

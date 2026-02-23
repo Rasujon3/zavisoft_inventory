@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\StaffController;
@@ -45,6 +46,9 @@ Route::group(['middleware' => ['prevent-back-history', 'admin_auth']], function 
 
     // Customers
     Route::resource('customers', CustomerController::class);
+
+    // Sales
+    Route::resource('sales', SaleController::class);
 });
 
 
