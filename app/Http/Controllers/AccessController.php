@@ -16,8 +16,7 @@ class AccessController extends Controller
     	try
         {
             // check user type admin or not
-            $user = User::where('user_type_id', 1)
-                ->where('role', 'admin')
+            $user = User::where('role', 'admin')
                 ->where('email', $request->email)
                 ->first();
 

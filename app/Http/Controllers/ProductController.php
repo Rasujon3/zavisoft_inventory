@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ServiceRequest;
-use App\Models\Service;
+use App\Http\Requests\ProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class ServiceController extends Controller
+class ProductController extends Controller
 {
     public function __construct()
     {
@@ -23,17 +23,33 @@ class ServiceController extends Controller
         {
             if($request->ajax()){
 
-                $tasks = Service::select('*')->latest();
+                $data = Product::select('*')->latest();
 
-                return Datatables::of($tasks)
+                return Datatables::of($data)
                     ->addIndexColumn()
 
                     ->addColumn('name', function($row){
                         return $row->name ?? '';
                     })
 
-                    ->addColumn('status', function($row){
-                        return '<label class="switch"><input class="' . ($row->status === 'Active' ? 'active-data' : 'decline-data') . '" id="status-update"  type="checkbox" ' . ($row->status === 'Active' ? 'checked' : '') . ' data-id="'.$row->id.'"><span class="slider round"></span></label>';
+                    ->addColumn('sku', function($row){
+                        return $row->sku ?? '';
+                    })
+
+                    ->addColumn('purchase_price', function($row){
+                        return $row->purchase_price ?? '';
+                    })
+
+                    ->addColumn('sell_price', function($row){
+                        return $row->sell_price ?? '';
+                    })
+
+                    ->addColumn('opening_stock', function($row){
+                        return $row->opening_stock ?? '';
+                    })
+
+                    ->addColumn('current_stock', function($row){
+                        return $row->current_stock ?? '';
                     })
 
                     ->addColumn('action', function($row){
@@ -41,7 +57,7 @@ class ServiceController extends Controller
                         $btn = "";
                         $btn .= '&nbsp;';
 
-                        $btn .= ' <a href="'.route('services.show',$row->id).'" class="btn btn-primary btn-sm action-button edit-product" data-id="'.$row->id.'"><i class="fa fa-edit"></i></a>';
+                        $btn .= ' <a href="'.route('products.show',$row->id).'" class="btn btn-primary btn-sm action-button edit-product" data-id="'.$row->id.'"><i class="fa fa-edit"></i></a>';
 
                         $btn .= '&nbsp;';
 
@@ -56,15 +72,17 @@ class ServiceController extends Controller
                             $searchValue = $request->search['value'];
                             $query->where(function($q) use ($searchValue) {
                                 $q->where('name', 'like', "%{$searchValue}%")
-                                    ->orWhere('status', 'like', "%{$searchValue}%");
+                                    ->orWhere('sku', 'like', "%{$searchValue}%")
+                                    ->orWhere('purchase_price', 'like', "%{$searchValue}%")
+                                    ->orWhere('opening_stock', 'like', "%{$searchValue}%");
                             });
                         }
                     })
-                    ->rawColumns(['name', 'status', 'action'])
+                    ->rawColumns(['name', 'sku', 'purchase_price', 'sell_price', 'opening_stock', 'current_stock', 'action'])
                     ->make(true);
             }
 
-            return view('admin.services.index');
+            return view('admin.products.index');
         } catch(Exception $e) {
             // Log the error
             Log::error('Error in fetching data: ', [
@@ -81,25 +99,30 @@ class ServiceController extends Controller
     }
     public function create()
     {
-        return view('admin.services.create');
+        return view('admin.products.create');
     }
-    public function store(ServiceRequest $request)
+    public function store(ProductRequest $request)
     {
         DB::beginTransaction();
         try
         {
-            $task = new Service();
-            $task->name = $request->name;
-            $task->status = $request->status;
-            $task->save();
+            $product = new Product();
+            $product->name = $request->name;
+            $product->sku = $request->sku;
+            $product->purchase_price = $request->purchase_price;
+            $product->sell_price = $request->sell_price;
+            $product->opening_stock = $request->opening_stock;
+            $product->current_stock = $request->opening_stock;
+            $product->save();
 
             $notification=array(
                 'message' => 'Successfully a data has been added',
                 'alert-type' => 'success',
             );
+
             DB::commit();
 
-            return redirect()->route('services.index')->with($notification);
+            return redirect()->route('products.index')->with($notification);
 
         } catch(Exception $e) {
             DB::rollback();
@@ -117,28 +140,31 @@ class ServiceController extends Controller
             return redirect()->back()->with($notification);
         }
     }
-    public function show(Service $service)
+    public function show(Product $product)
     {
-        return view('admin.services.edit', compact('service'));
+        return view('admin.products.edit', compact('product'));
     }
-    public function edit(Service $service)
+    public function edit(Product $product)
     {
         //
     }
-    public function update(ServiceRequest $request, Service $service)
+    public function update(ProductRequest $request, Product $product)
     {
         try
         {
-            $service->name = $request->name;
-            $service->status = $request->status;
-            $service->save();
+            $product->name = $request->name;
+            $product->sku = $request->sku;
+            $product->purchase_price = $request->purchase_price;
+            $product->sell_price = $request->sell_price;
+            $product->opening_stock = $request->opening_stock;
+            $product->save();
 
             $notification=array(
                 'message' => 'Successfully the data has been updated',
                 'alert-type' => 'success',
             );
 
-            return redirect()->route('services.index')->with($notification);
+            return redirect()->route('products.index')->with($notification);
 
         } catch(Exception $e) {
             // Log the error
@@ -155,11 +181,11 @@ class ServiceController extends Controller
             return redirect()->back()->with($notification);
         }
     }
-    public function destroy(Service $service)
+    public function destroy(Product $product)
     {
         try
         {
-            $service->delete();
+            $product->delete();
             return response()->json([
                 'status'=>true,
                 'message'=>'Successfully the data has been deleted'
@@ -179,12 +205,12 @@ class ServiceController extends Controller
             ]);
         }
     }
-    public function serviceStatusUpdate(ServiceRequest $request)
+    public function branchStatusUpdate(Product $product)
     {
         DB::beginTransaction();
         try
         {
-            $data = Service::findorfail($request->id);
+            $data = Product::findorfail($request->id);
             $data->status = $request->status;
             $data->update();
 
@@ -192,7 +218,7 @@ class ServiceController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Service status updated successfully."
+                'message' => "Product status updated successfully."
             ]);
         } catch(Exception $e) {
             DB::rollBack();

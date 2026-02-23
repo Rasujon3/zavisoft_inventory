@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
             'name'     => 'Admin',
             'email'         => 'admin@gmail.com',
             'phone'         => '01712345678',
-            'user_type_id'  => 1, // admin
+            #'user_type_id'  => 1, // admin
             'role'          => 'admin',
             'password'      => '123456', // Mutator will hash this password
-            'remember_token'         => Str::random(60),
+            'remember_token' => Str::random(60),
             'status'        => 'Active',
         ]);
     }

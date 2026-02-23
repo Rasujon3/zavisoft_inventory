@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DurationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\StaffController;
@@ -38,50 +39,8 @@ Route::group(['middleware' => ['prevent-back-history', 'admin_auth']], function 
     Route::get('password-change', [AccessController::class, 'passwordChange'])->name('password-change');
     Route::post('change-password', [AccessController::class, 'changePassword'])->name('change-password');
 
-    // Service Routes
-    Route::resource('services', ServiceController::class);
-    Route::post('service-status-update', [ServiceController::class, 'serviceStatusUpdate'])->name('service-status-update');
-
-    Route::resource('durations', DurationController::class);
-    Route::post('duration-status-update', [DurationController::class, 'durationStatusUpdate'])->name('duration-status-update');
-
-    Route::resource('branches', BranchController::class);
-    Route::post('branch-status-update', [BranchController::class, 'branchStatusUpdate'])->name('branch-status-update');
-
-    Route::resource('experiences', ExperienceController::class);
-    Route::post('experience-status-update', [ExperienceController::class, 'experienceStatusUpdate'])->name('experience-status-update');
-
-    Route::resource('specialities', SpecialityController::class);
-    Route::post('speciality-status-update', [SpecialityController::class, 'specialityStatusUpdate'])->name('speciality-status-update');
-
-    Route::resource('workingdays', WorkingDayController::class);
-    Route::post('workingdays-status-update', [WorkingDayController::class, 'workingdaysStatusUpdate'])->name('workingdays-status-update');
-
-    Route::resource('workingtimeranges', WorkingTimeRangeController::class);
-    Route::post('workingtimeranges-status-update', [
-        WorkingTimeRangeController::class, 'workingtimerangesStatusUpdate'
-    ])
-        ->name('workingtimeranges-status-update');
-
-    Route::resource('staffs', StaffController::class);
-    Route::post('staff-status-update', [
-        StaffController::class, 'staffStatusUpdate'
-    ])
-        ->name('staff-status-update');
-    // Add Services
-    Route::get('staffs/{staff}/add-services',
-        [StaffController::class, 'addServices']
-    )->name('staffs.add.services');
-
-    Route::post('staffs/{staff}/store-services',
-        [StaffController::class, 'storeServices']
-    )->name('staffs.store.services');
-
-    Route::get('staffs/{id}/edit-services', [StaffController::class,'editServices'])
-        ->name('staffs.edit.services');
-
-    Route::post('staffs/{staff}/update-services', [StaffController::class,'updateServices'])
-        ->name('staffs.update.services');
+    // Products
+    Route::resource('products', ProductController::class);
 });
 
 

@@ -26,11 +26,5 @@ class UserTypeSeeder extends Seeder
             'role' => 'user',
             'is_showing' => true,
         ]);
-
-        UserType::create([
-            'name' => 'Service Provider',
-            'role' => 'service_provider',
-            'is_showing' => true,
-        ]);
     }
 }
