@@ -44,7 +44,7 @@ This project was developed as part of a Mid-Level Laravel Hiring Task (2026).
 ### 📘 Double Entry Accounting
 Every sale automatically generates journal entries:
 
-- Debit: Accounts Receivable
+- Debit:  Receivable
 - Credit: Sales Revenue
 - Credit: VAT Payable
 - Debit: Cost of Goods Sold (COGS)
@@ -94,7 +94,7 @@ Validation enforced at backend.
 
 ## 🧱 Database Structure
 customers → sales → sale_items → products
-sales → journal_entries → journal_entry_lines → accounts
+sales → journal_entries → journal_entry_lines
 
 
 ---
