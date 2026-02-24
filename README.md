@@ -1,64 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 📦 Inventory & Accounting Management System (Laravel 11)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simplified **Inventory Management System with Double Entry Accounting** built using Laravel 11 and MySQL.
 
-## About Laravel
+This project was developed as part of a Mid-Level Laravel Hiring Task (2026).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌐 Live Demo
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+🔗 URL: https://zsinventory.smcglobal.shop/
 
-## Learning Laravel
+**Admin Login Credentials**
+**Email**: admin@gmail.com
+**Password**: 123456
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🏗️ Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- **Framework:** Laravel 11
+- **Database:** MySQL
+- **Frontend:** Blade + Bootstrap
+- **Architecture:** MVC + Service Layer (AccountingService)
+- **Accounting Method:** Double Entry Bookkeeping
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## 🚀 Core Features
 
-## Contributing
+### 📦 Inventory Management
+- Product CRUD
+- Opening stock & current stock tracking
+- Automatic stock deduction on sale
+- Stock restoration on sale deletion
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🛒 Sales Module
+- Multi-product sale entry
+- Discount & VAT support
+- Partial payment handling
+- Automatic due calculation
 
-## Code of Conduct
+### 📘 Double Entry Accounting
+Every sale automatically generates journal entries:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Debit: Accounts Receivable
+- Credit: Sales Revenue
+- Credit: VAT Payable
+- Debit: Cost of Goods Sold (COGS)
+- Credit: Inventory
 
-## Security Vulnerabilities
+✔ Journal balancing enforced  
+✔ Transaction-safe operations  
+✔ Concurrency-safe stock update
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 📊 Reports
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1️⃣ Date-wise Financial Report
+- Total Sales
+- Total VAT
+- Total COGS
+- Net Profit
+
+### 2️⃣ Profit Report
+- Revenue (Income Accounts)
+- Expense
+- Net Profit Calculation
+
+### 3️⃣ Account Ledger
+- Debit/Credit history
+- Running balance
+- Filter by date
+
+---
+
+## 🧾 Accounting Structure
+
+### Chart of Accounts
+- Cash
+- Accounts Receivable
+- Inventory
+- Sales Revenue
+- VAT Payable
+- Cost of Goods Sold
+
+### Journal Rule
+SUM(Debit) = SUM(Credit)
+Validation enforced at backend.
+
+---
+
+## 🧱 Database Structure
+customers → sales → sale_items → products
+sales → journal_entries → journal_entry_lines → accounts
+
+
+---
+
+## ⚙️ Local Setup Instructions
+
+### Requirements
+- PHP >= 8.2
+- Composer
+- MySQL
+- Laravel 11
+
+### Installation
+
+git clone https://github.com/your-username/inventory-system.git
+cd inventory-system
+
+composer install
+cp .env.example .env
+php artisan key:generate
+
+Configure .env
+DB_DATABASE=inventory_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+Run Migration & Seed
+php artisan migrate --seed
+
+Start Server
+php artisan serve
+
+### Data Integrity & Safety
+
+- DB Transactions used for sale creation & deletion
+
+- lockForUpdate() prevents stock race condition
+
+- Journal auto-reversed on sale delete
+
+- Backend calculation (no frontend trust)
+
+### Business Flow
+Sale Create
+↓
+Stock Reduce
+↓
+Journal Entry Auto Create
+↓
+Reports Updated Automatically
+
+### Project Highlights
+
+- Clean Eloquent relationships
+
+- Service-based accounting logic
+
+- Date-filtered reporting
+
+- Production-ready structure
+
+- Error handling & edge-case protection
+
+### Author
+
+Developed by Sujon
+Laravel Developer
+Mid-Level Hiring Task – 2026
